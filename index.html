@@ -185,6 +185,34 @@
   <source src="idulfitri.mp3" type="audio/mpeg">
   Browser Anda tidak mendukung elemen audio.
 </audio>
+  <script>
+  // Background Audio Autoplay Handler
+  document.addEventListener('DOMContentLoaded', function() {
+    const bgAudio = document.getElementById('bgAudio');
+    
+    // Fungsi untuk memulai audio
+    function playAudio() {
+      bgAudio.play().catch(e => {
+        console.log('Autoplay dicegah browser, menunggu interaksi user');
+        // Jika autoplay dicegah, coba lagi saat user berinteraksi
+        document.addEventListener('click', function playOnClick() {
+          bgAudio.play();
+          document.removeEventListener('click', playOnClick);
+        }, { once: true });
+      });
+    }
+
+    // Coba autoplay
+    playAudio();
+    
+    // Coba lagi saat halaman dibuka (untuk cover)
+    document.getElementById('openBtn')?.addEventListener('click', function() {
+      setTimeout(() => {
+        bgAudio.play().catch(e => console.log('Audio tetap tidak bisa diputar'));
+      }, 500);
+    });
+  });
+</script>
 
   <!-- ===== COVER PAGE ===== -->
   <div id="coverPage" class="h-full w-full flex flex-col items-center justify-center relative overflow-hidden islamic-pattern" style="min-height:100vh;">
