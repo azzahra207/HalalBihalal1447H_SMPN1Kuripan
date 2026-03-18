@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="id" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMPN 1 Kuripan | Halal Bihalal</title>
+  
+  <!-- CSS Libraries -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Amiri:wght@400;700&amp;family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
+  <link rel="website icon" type="png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYA3xl4WxYPdAVtWsjUUw0vEpOapgdzu4Qbw&s">
+
+  <style>
+    /* ===== ANIMATIONS ===== */
+    @keyframes floatParticle {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100%) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.3), 0 0 40px rgba(212, 175, 55, 0.1); }
+      50% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.5), 0 0 60px rgba(212, 175, 55, 0.2); }
+    }
+
+    @keyframes starTwinkle {
+      0%, 100% { opacity: 0.2; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { border-color: rgba(212, 175, 55, 0.3); }
+      50% { border-color: rgba(212, 175, 55, 0.8); }
+    }
+
+    @keyframes crescentRotate {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1) rotate(180deg); }
+    }
+
+    /* ===== UTILITY CLASSES ===== */
+    .shimmer-text {
+      background: linear-gradient(90deg, #d4af37 0%, #f5e6a3 25%, #d4af37 50%, #f5e6a3 75%, #d4af37 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+    }
+
+    .glow-btn {
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+
+    .float-anim {
+      animation: gentleFloat 3s ease-in-out infinite;
+    }
+
+    .border-glow {
+      animation: borderGlow 2s ease-in-out infinite;
+    }
+
+    .crescent-anim {
+      animation: crescentRotate 4s ease-in-out infinite;
+    }
+
+    .page-section {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .page-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .particle, .sparkle-dot, .star-particle {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .star-particle {
+      animation: starTwinkle ease-in-out infinite;
+    }
+
+    .sparkle-dot {
+      animation: sparkle ease-in-out infinite;
+    }
+
+    /* Islamic geometric pattern */
+    .islamic-pattern {
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23d4af37' stroke-width='0.5' opacity='0.08'/%3E%3Cpath d='M30 10L50 30L30 50L10 30Z' fill='none' stroke='%23d4af37' stroke-width='0.3' opacity='0.06'/%3E%3C/svg%3E");
+      background-size: 60px 60px;
+    }
+
+    .ornament-line {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #0a1628; }
+    ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 2px; }
+
+    .glass-card {
+      background: rgba(10, 22, 40, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .countdown-box {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(10, 22, 40, 0.8));
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .mosque-silhouette {
+      filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.3));
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-weight: 700;
+      box-sizing: border-box;
+    }
+
+    /* Fix for Bootstrap conflicts */
+    .btn, .fw-bold {
+      font-weight: 700 !important;
+    }
+  </style>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              50: '#e8ecf4', 100: '#c5cfe3', 200: '#9eafd0', 300: '#768fbd',
+              400: '#5877ae', 500: '#1b3a5c', 600: '#152e4a', 700: '#0f2238',
+              800: '#0a1628', 900: '#050b14'
+            },
+            gold: {
+              50: '#fdf8e8', 100: '#f9edc5', 200: '#f5e6a3', 300: '#edce6a',
+              400: '#e4b83a', 500: '#d4af37', 600: '#b8922a', 700: '#8a6d1f',
+              800: '#5c4915', 900: '#2e240a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+</head>
+
+<body class="h-full bg-navy-800 text-white overflow-x-hidden" style="font-family:'Cormorant Garamond',serif;">
+
+  <!-- ===== COVER PAGE ===== -->
+  <div id="coverPage" class="h-full w-full flex flex-col items-center justify-center relative overflow-hidden islamic-pattern" style="min-height:100vh;">
+    <div id="coverParticles" class="absolute inset-0 pointer-events-none"></div>
+    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold-500 to-transparent"></div>
+
+    <!-- Crescent Moon & Stars SVG -->
+    <div class="crescent-anim mb-4 relative" style="width:120px;height:120px;">
+      <svg viewBox="0 0 120 120" class="mosque-silhouette">
+        <defs>
+          <linearGradient id="moonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f5e6a3" />
+            <stop offset="100%" stop-color="#d4af37" />
+          </linearGradient>
+        </defs>
+        <path d="M60 10 C35 10 15 35 15 60 C15 85 35 110 60 110 C45 95 40 75 45 60 C50 45 55 25 60 10Z" fill="url(#moonGrad)" />
+        <circle cx="85" cy="25" r="2" fill="#f5e6a3" opacity="0.8">
+          <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="95" cy="40" r="1.5" fill="#f5e6a3" opacity="0.6">
+          <animate attributeName="opacity" values="0.2;0.9;0.2" dur="2.5s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="78" cy="45" r="1" fill="#f5e6a3" opacity="0.7">
+          <animate attributeName="opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="100" cy="55" r="1.8" fill="#f5e6a3" opacity="0.5">
+          <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="90" cy="18" r="1.2" fill="#f5e6a3" opacity="0.9">
+          <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite" />
+        </circle>
+      </svg>
+    </div>
+
+    <p class="text-gold-300 text-lg mb-2 tracking-widest" style="font-family:'Amiri',serif;">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</p>
+    <div class="ornament-line w-48 my-3"></div>
+
+    <h1 id="coverTitle" class="shimmer-text text-4xl md:text-5xl font-bold text-center px-6 mb-2" style="font-family:'Playfair Display',serif;">Undangan Halal Bihalal</h1>
+    <p id="coverYear" class="text-gold-200 text-lg tracking-wider mt-1 mb-2" style="font-family:'Amiri',serif;">Idul Fitri 1447 H / 2026 M</p>
+    <div class="ornament-line w-32 my-3"></div>
+
+    <div class="text-center px-8 mb-6">
+      <p class="text-white/70 text-sm tracking-wider uppercase mb-1">Keluarga Besar Tenaga Pendidik dan Kependidikan</p>
+      <p class="text-gold-400 text-xl font-semibold" style="font-family:'Playfair Display',serif;">SMP Negeri 1 Kuripan</p>
+    </div>
+
+    <!-- Mosque Silhouette -->
+    <div class="mb-6 opacity-40">
+      <svg width="280" height="80" viewBox="0 0 280 80">
+        <defs>
+          <linearGradient id="mosqueGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#d4af37" stop-opacity="0.6" />
+            <stop offset="100%" stop-color="#d4af37" stop-opacity="0.1" />
+          </linearGradient>
+        </defs>
+        <ellipse cx="140" cy="40" rx="30" ry="28" fill="none" stroke="url(#mosqueGrad)" stroke-width="1.5" />
+        <line x1="140" y1="12" x2="140" y2="4" stroke="#d4af37" stroke-width="1" opacity="0.6" />
+        <circle cx="140" cy="3" r="2" fill="#d4af37" opacity="0.6" />
+        <rect x="75" y="30" width="8" height="50" fill="none" stroke="url(#mosqueGrad)" stroke-width="1" />
+        <ellipse cx="79" cy="30" rx="6" ry="8" fill="none" stroke="url(#mosqueGrad)" stroke-width="1" />
+        <line x1="79" y1="22" x2="79" y2="16" stroke="#d4af37" stroke-width="0.8" opacity="0.5" />
+        <circle cx="79" cy="15" r="1.5" fill="#d4af37" opacity="0.5" />
+        <rect x="197" y="30" width="8" height="50" fill="none" stroke="url(#mosqueGrad)" stroke-width="1" />
+        <ellipse cx="201" cy="30" rx="6" ry="8" fill="none" stroke="url(#mosqueGrad)" stroke-width="1" />
+        <line x1="201" y1="22" x2="201" y2="16" stroke="#d4af37" stroke-width="0.8" opacity="0.5" />
+        <circle cx="201" cy="15" r="1.5" fill="#d4af37" opacity="0.5" />
+        <rect x="60" y="78" width="160" height="2" fill="url(#mosqueGrad)" />
+        <ellipse cx="110" cy="50" rx="18" ry="16" fill="none" stroke="url(#mosqueGrad)" stroke-width="1" opacity="0.5" />
+        <ellipse cx="170" cy="50" rx="18" ry="16" fill="none" stroke="url(#mosqueGrad)" stroke-width="1" opacity="0.5" />
+      </svg>
+    </div>
+
+    <!-- Open Button -->
+    <button id="openBtn" class="glow-btn relative px-10 py-3 rounded-full border-2 border-gold-500 text-gold-300 font-bold tracking-wider uppercase text-sm transition-all duration-300 hover:bg-gold-500 hover:text-navy-900 active:scale-95" onclick="openInvitation()">
+      <span class="flex items-center gap-2 fw-bold">
+        <i data-lucide="mail-open" style="width:18px;height:18px;"></i>
+        Buka Undangan
+      </span>
+    </button>
+
+    <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold-500 to-transparent"></div>
+  </div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div id="mainContent" class="w-full hidden" style="min-height:100vh;">
+    <div class="max-w-lg mx-auto relative">
+      <div id="mainParticles" class="fixed inset-0 pointer-events-none z-0"></div>
+
+      <!-- PRAKATA -->
+      <section class="page-section relative z-10 px-6 pt-10 pb-8">
+        <div class="flex items-center justify-center gap-3 mb-6">
+          <div class="ornament-line flex-1"></div>
+          <svg width="28" height="28" viewBox="0 0 28 28" class="text-gold-500">
+            <path d="M14 2L17 11H26L19 17L21 26L14 21L7 26L9 17L2 11H11Z" fill="currentColor" opacity="0.7" />
+          </svg>
+          <div class="ornament-line flex-1"></div>
+        </div>
+        <p class="text-gold-300 text-center text-base mb-4" style="font-family:'Amiri',serif;">اَلسَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ</p>
+        <h2 class="text-center text-2xl font-bold text-gold-400 mb-4" style="font-family:'Playfair Display',serif;">Prakata</h2>
+        <div class="glass-card rounded-2xl p-6 border-glow">
+          <p id="sambutanText" class="text-white/80 text-center leading-relaxed text-sm" style="line-height:1.8;"></p>
+        </div>
+        <div class="flex items-center justify-center gap-3 mt-6">
+          <div class="ornament-line flex-1"></div>
+          <div class="w-2 h-2 rounded-full bg-gold-500 opacity-50"></div>
+          <div class="ornament-line flex-1"></div>
+        </div>
+      </section>
+
+      <!-- JADWAL -->
+      <section class="page-section relative z-10 px-6 py-8">
+        <h2 class="text-center text-2xl font-bold text-gold-400 mb-6" style="font-family:'Playfair Display',serif;">
+          <i data-lucide="calendar" style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:8px;"></i>
+          Waktu & Tempat
+        </h2>
+        <div class="glass-card rounded-2xl p-6 border-glow space-y-5">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gold-500/20 to-gold-700/10 flex items-center justify-center flex-shrink-0 border border-gold-500/20">
+              <i data-lucide="calendar-days" style="width:22px;height:22px;"></i>
+            </div>
+            <div>
+              <p class="text-gold-300 text-xs uppercase tracking-wider mb-1">Hari / Tanggal</p>
+              <p id="eventDate" class="text-white font-semibold text-base"></p>
+            </div>
+          </div>
+          <div class="ornament-line w-full"></div>
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gold-500/20 to-gold-700/10 flex items-center justify-center flex-shrink-0 border border-gold-500/20">
+              <i data-lucide="clock" style="width:22px;height:22px;"></i>
+            </div>
+            <div>
+              <p class="text-gold-300 text-xs uppercase tracking-wider mb-1">Waktu</p>
+              <p id="eventTime" class="text-white font-semibold text-base"></p>
+            </div>
+          </div>
+          <div class="ornament-line w-full"></div>
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gold-500/20 to-gold-700/10 flex items-center justify-center flex-shrink-0 border border-gold-500/20">
+              <i data-lucide="map-pin" style="width:22px;height:22px;"></i>
+            </div>
+            <div>
+              <p class="text-gold-300 text-xs uppercase tracking-wider mb-1">Tempat</p>
+              <p id="eventLocation" class="text-white font-semibold text-base"></p>
+              <p id="eventAddress" class="text-white/60 text-sm mt-1"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COUNTDOWN -->
+      <section class="page-section relative z-10 px-6 py-8">
+        <h2 class="text-center text-2xl font-bold text-gold-400 mb-6" style="font-family:'Playfair Display',serif;">
+          <i data-lucide="hourglass" style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:8px;"></i>
+          Hitung Mundur
+        </h2>
+        <div class="flex justify-center gap-3" id="countdownContainer">
+          <div class="countdown-box rounded-xl p-4 text-center min-w-[70px]">
+            <p id="cdDays" class="text-3xl font-bold text-gold-400" style="font-family:'Playfair Display',serif;">00</p>
+            <p class="text-white/50 text-xs uppercase tracking-wider mt-1">Hari</p>
+          </div>
+          <div class="countdown-box rounded-xl p-4 text-center min-w-[70px]">
+            <p id="cdHours" class="text-3xl font-bold text-gold-400" style="font-family:'Playfair Display',serif;">00</p>
+            <p class="text-white/50 text-xs uppercase tracking-wider mt-1">Jam</p>
+          </div>
+          <div class="countdown-box rounded-xl p-4 text-center min-w-[70px]">
+            <p id="cdMinutes" class="text-3xl font-bold text-gold-400" style="font-family:'Playfair Display',serif;">00</p>
+            <p class="text-white/50 text-xs uppercase tracking-wider mt-1">Menit</p>
+          </div>
+          <div class="countdown-box rounded-xl p-4 text-center min-w-[70px]">
+            <p id="cdSeconds" class="text-3xl font-bold text-gold-400" style="font-family:'Playfair Display',serif;">00</p>
+            <p class="text-white/50 text-xs uppercase tracking-wider mt-1">Detik</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SUSUNAN ACARA -->
+      <section class="page-section relative z-10 px-6 py-8">
+        <h2 class="text-center text-2xl font-bold text-gold-400 mb-6" style="font-family:'Playfair Display',serif;">
+          <i data-lucide="list" style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:8px;"></i>
+          Susunan Acara
+        </h2>
+        <div class="glass-card rounded-2xl p-6 border-glow">
+          <div class="space-y-4" id="agendaList"></div>
+        </div>
+      </section>
+
+      <!-- LOKASI -->
+      <section class="page-section relative z-10 px-6 py-8">
+        <h2 class="text-center text-2xl font-bold text-gold-400 mb-6" style="font-family:'Playfair Display',serif;">
+          <i data-lucide="navigation" style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:8px;"></i>
+          Lokasi Acara
+        </h2>
+        <div class="glass-card rounded-2xl overflow-hidden border-glow">
+          <div class="relative w-full" style="height:200px;background:linear-gradient(135deg,#0a1628,#152e4a);">
+            <svg viewBox="0 0 400 200" class="w-full h-full" preserveAspectRatio="xMidYMid slice">
+              <line x1="0" y1="100" x2="400" y2="100" stroke="#1b3a5c" stroke-width="8" />
+              <line x1="200" y1="0" x2="200" y2="200" stroke="#1b3a5c" stroke-width="6" />
+              <line x1="0" y1="50" x2="400" y2="50" stroke="#0f2238" stroke-width="3" />
+              <line x1="0" y1="150" x2="400" y2="150" stroke="#0f2238" stroke-width="3" />
+              <line x1="100" y1="0" x2="100" y2="200" stroke="#0f2238" stroke-width="3" />
+              <line x1="300" y1="0" x2="300" y2="200" stroke="#0f2238" stroke-width="3" />
+              <line x1="0" y1="100" x2="400" y2="100" stroke="#d4af37" stroke-width="0.5" stroke-dasharray="8,12" opacity="0.3" />
+              <rect x="120" y="60" width="50" height="25" rx="3" fill="#152e4a" stroke="#1b3a5c" stroke-width="1" />
+              <rect x="230" y="110" width="45" height="30" rx="3" fill="#152e4a" stroke="#1b3a5c" stroke-width="1" />
+              <rect x="40" y="115" width="40" height="25" rx="3" fill="#152e4a" stroke="#1b3a5c" stroke-width="1" />
+              <rect x="310" y="55" width="55" height="20" rx="3" fill="#152e4a" stroke="#1b3a5c" stroke-width="1" />
+              <g transform="translate(200,75)">
+                <circle r="20" fill="#d4af37" opacity="0.15">
+                  <animate attributeName="r" values="15;25;15" dur="2s" repeatCount="indefinite" />
+                  <animate attributeName="opacity" values="0.2;0.05;0.2" dur="2s" repeatCount="indefinite" />
+                </circle>
+                <circle r="12" fill="#d4af37" opacity="0.1">
+                  <animate attributeName="r" values="10;16;10" dur="2s" repeatCount="indefinite" />
+                </circle>
+                <path d="M0,-18 C-10,-18 -14,-10 -14,-5 C-14,5 0,15 0,15 C0,15 14,5 14,-5 C14,-10 10,-18 0,-18Z" fill="#d4af37" />
+                <circle cx="0" cy="-5" r="5" fill="#0a1628" />
+              </g>
+              <text x="200" y="115" text-anchor="middle" fill="#f5e6a3" font-size="9" font-family="'Cormorant Garamond',serif" font-weight="600">Kediaman Bu Erva Kurnia Ulfa</text>
+            </svg>
+          </div>
+          <div class="p-4 text-center">
+            <a href="https://maps.app.goo.gl/9PnT1hoTpj83cdcA9" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-gold-500/40 text-gold-300 text-sm font-semibold tracking-wide hover:bg-gold-500/10 transition-all duration-300">
+              <i data-lucide="external-link" style="width:16px;height:16px;"></i>
+              Buka di Google Maps
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- DOA -->
+      <section class="page-section relative z-10 px-6 py-8">
+        <div class="glass-card rounded-2xl p-6 text-center border-glow">
+          <div class="float-anim mb-4">
+            <svg width="50" height="50" viewBox="0 0 50 50" class="mx-auto">
+              <path d="M25 5C15 5 8 15 8 22C8 32 25 45 25 45C25 45 42 32 42 22C42 15 35 5 25 5Z" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.6" />
+              <path d="M25 12C20 12 16 17 16 21C16 27 25 36 25 36C25 36 34 27 34 21C34 17 30 12 25 12Z" fill="#d4af37" opacity="0.15" />
+            </svg>
+          </div>
+          <p class="text-gold-300 text-base mb-3" style="font-family:'Amiri',serif;">تَقَبَّلَ ٱللَّهُ مِنَّا وَمِنكُم</p>
+          <p class="text-white/70 text-sm leading-relaxed">Semoga Allah SWT menerima amal ibadah kita dan mempererat tali silaturahmi di antara kita semua.</p>
+          <div class="ornament-line w-24 mx-auto my-4"></div>
+          <p class="text-gold-400 font-semibold text-base" style="font-family:'Playfair Display',serif;">Minal Aidin Wal Faizin</p>
+          <p class="text-white/50 text-xs mt-1">Mohon Maaf Lahir dan Batin</p>
+        </div>
+      </section>
+
+      <!-- PENUTUP -->
+      <section class="page-section relative z-10 px-6 pt-8 pb-16">
+        <div class="text-center">
+          <p class="text-white/60 text-sm leading-relaxed mb-4">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu berkenan hadir. Atas perhatian dan kehadirannya, kami ucapkan terima kasih.</p>
+          <div class="ornament-line w-32 mx-auto my-4"></div>
+          <p class="text-gold-300 text-sm" style="font-family:'Amiri',serif;">وَٱلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ ٱللَّهِ وَبَرَكَاتُهُ</p>
+          <div class="mt-6">
+            <p class="text-white/40 text-xs">Panitia Halal Bihalal</p>
+            <p class="text-gold-400 text-sm font-semibold mt-1" style="font-family:'Playfair Display',serif;">Keluarga Besar Tenaga Pendidik SMP</p>
+          </div>
+        </div>
+        <div class="flex items-center justify-center gap-3 mt-8">
+          <div class="ornament-line flex-1"></div>
+          <svg width="20" height="20" viewBox="0 0 20 20" class="text-gold-500">
+            <path d="M10 1L12.5 7.5H19L14 12L16 19L10 15L4 19L6 12L1 7.5H7.5Z" fill="currentColor" opacity="0.5" />
+          </svg>
+          <div class="ornament-line flex-1"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // ===== CONFIGURATION =====
+    const defaultConfig = {
+      main_title: 'Undangan Halal Bihalal',
+      hijri_year: 'Idul Fitri 1447 H / 2026 M',
+      sambutan_text: 'Segala puji bagi Allah SWT yang telah melimpahkan rahmat dan karunia-Nya, sehingga kita dapat merayakan Hari Raya Idul Fitri 1447 H dengan penuh suka cita. Shalawat serta salam semoga tercurah kepada Nabi Muhammad SAW.\n\nDalam rangka mempererat tali silaturahmi di antara keluarga besar tenaga pendidik SMP, kami mengundang Bapak/Ibu Guru untuk hadir dalam acara Halal Bihalal yang insya Allah akan diselenggarakan pada:',
+      event_date: 'Sabtu, 12 April 2026',
+      event_time: '09.30 WIB - selesai',
+      event_location: 'Kediaman Ibu Erva Kurnia Ulfa',
+      event_address: '446X+Q8Q, Jalan Raya, Kuripan Wetan, Kedawung, Kuripan, Probolinggo Regency, East Java 67262',
+      background_color: '#0a1628',
+      surface_color: '#152e4a',
+      text_color: '#ffffff',
+      primary_action_color: '#d4af37',
+      secondary_action_color: '#f5e6a3',
+      font_family: 'Cormorant Garamond',
+      font_size: 16
+    };
+
+    const agendaItems = [
+      { time: '09.30', title: 'Parkir Kendaraan', icon: 'bike'},
+      { time: '10.00', title: 'Pembukaan & Tilawah Al-Quran', icon: 'book-open' },
+      { time: '10.00', title: 'Seuntai Kata Kepala Sekolah', icon: 'mic' },
+      { time: '10.15', title: 'Sekapur Sirih Tuan Rumah', icon: 'heart' },
+      { time: '10.30', title: 'Penutup & Doa Bersama', icon: 'star' },
+      { time: '11.00', title: 'Ramah Tamah & Makan Bersama', icon: 'utensils' }
+    ];
+
+    // ===== HELPER FUNCTIONS =====
+    function hexToRgba(hex, alpha) {
+      const r = parseInt(hex.slice(1, 3), 16);
+      const g = parseInt(hex.slice(3, 5), 16);
+      const b = parseInt(hex.slice(5, 7), 16);
+      return `rgba(${r},${g},${b},${alpha})`;
+    }
+
+    function getLucideIconName(icon) {
+      const iconMap = {
+        'bike': 'bike',
+        'book-open': 'book-open',
+        'mic': 'mic',
+        'heart': 'heart',
+        'users': 'users',
+        'utensils': 'utensils',
+        'star': 'star'
+      };
+      return iconMap[icon] || 'circle';
+    }
+
+    // ===== APPLY CONFIG =====
+    function applyConfig(config) {
+      const c = { ...defaultConfig, ...config };
+      const baseFontStack = `${c.font_family}, 'Cormorant Garamond', serif`;
+      const bs = c.font_size;
+
+      // Cover
+      const coverTitle = document.getElementById('coverTitle');
+      if (coverTitle) coverTitle.textContent = c.main_title;
+      const coverYear = document.getElementById('coverYear');
+      if (coverYear) coverYear.textContent = c.hijri_year;
+
+      // Sambutan
+      const sambutanEl = document.getElementById('sambutanText');
+      if (sambutanEl) {
+        sambutanEl.innerHTML = c.sambutan_text
+          .replace(/\n\n/g, '<br><br>')
+          .replace(/Halal Bihalal/g, '<strong class="text-gold-300">Halal Bihalal</strong>');
+      }
+
+      // Event info
+      const ed = document.getElementById('eventDate');
+      if (ed) ed.textContent = c.event_date;
+      const et = document.getElementById('eventTime');
+      if (et) et.textContent = c.event_time;
+      const el = document.getElementById('eventLocation');
+      if (el) el.textContent = c.event_location;
+      const ea = document.getElementById('eventAddress');
+      if (ea) ea.textContent = c.event_address;
+
+      // Colors
+      document.body.style.backgroundColor = c.background_color;
+
+      document.querySelectorAll('.glass-card').forEach(card => {
+        card.style.backgroundColor = hexToRgba(c.surface_color, 0.6);
+        card.style.borderColor = hexToRgba(c.primary_action_color, 0.2);
+      });
+
+      document.querySelectorAll('.countdown-box').forEach(box => {
+        box.style.borderColor = hexToRgba(c.primary_action_color, 0.3);
+      });
+
+      document.body.style.color = c.text_color;
+
+      document.querySelectorAll('.shimmer-text').forEach(el => {
+        el.style.background = `linear-gradient(90deg, ${c.primary_action_color} 0%, ${c.secondary_action_color} 25%, ${c.primary_action_color} 50%, ${c.secondary_action_color} 75%, ${c.primary_action_color} 100%)`;
+        el.style.backgroundSize = '200% auto';
+        el.style.webkitBackgroundClip = 'text';
+        el.style.webkitTextFillColor = 'transparent';
+        el.style.backgroundClip = 'text';
+      });
+
+      document.querySelectorAll('.ornament-line').forEach(line => {
+        line.style.background = `linear-gradient(90deg, transparent, ${c.primary_action_color}, transparent)`;
+      });
+
+      // Font
+      document.body.style.fontFamily = baseFontStack;
+      document.querySelectorAll('h1,h2').forEach(h => {
+        h.style.fontFamily = `'Playfair Display', ${baseFontStack}`;
+      });
+
+      // Font size scaling
+      document.querySelectorAll('.text-sm, .text-xs').forEach(el => {
+        el.style.fontSize = `${bs * 0.85}px`;
+      });
+      document.querySelectorAll('p:not(.text-sm):not(.text-xs):not(.text-3xl):not(.text-lg)').forEach(el => {
+        el.style.fontSize = `${bs}px`;
+      });
+    }
+
+    // ===== ELEMENT SDK INIT =====
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          applyConfig(config);
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (v) => {
+                config.background_color = v;
+                window.elementSdk.setConfig({ background_color: v });
+              }
+            },
+            {
+              get: () => config.surface_color || defaultConfig.surface_color,
+              set: (v) => {
+                config.surface_color = v;
+                window.elementSdk.setConfig({ surface_color: v });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (v) => {
+                config.text_color = v;
+                window.elementSdk.setConfig({ text_color: v });
+              }
+            },
+            {
+              get: () => config.primary_action_color || defaultConfig.primary_action_color,
+              set: (v) => {
+                config.primary_action_color = v;
+                window.elementSdk.setConfig({ primary_action_color: v });
+              }
+            },
+            {
+              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+              set: (v) => {
+                config.secondary_action_color = v;
+                window.elementSdk.setConfig({ secondary_action_color: v });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (v) => {
+              config.font_family = v;
+              window.elementSdk.setConfig({ font_family: v });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (v) => {
+              config.font_size = v;
+              window.elementSdk.setConfig({ font_size: v });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['main_title', config.main_title || defaultConfig.main_title],
+          ['hijri_year', config.hijri_year || defaultConfig.hijri_year],
+          ['sambutan_text', config.sambutan_text || defaultConfig.sambutan_text],
+          ['event_date', config.event_date || defaultConfig.event_date],
+          ['event_time', config.event_time || defaultConfig.event_time],
+          ['event_location', config.event_location || defaultConfig.event_location],
+          ['event_address', config.event_address || defaultConfig.event_address]
+        ])
+      });
+    }
+
+    // ===== PARTICLES =====
+    function createParticles(containerId, count) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'star-particle';
+        const size = Math.random() * 3 + 1;
+        p.style.cssText = `width:${size}px;height:${size}px;background:#d4af37;border-radius:50%;left:${Math.random() * 100}%;top:${Math.random() * 100}%;animation-duration:${Math.random() * 3 + 2}s;animation-delay:${Math.random() * 3}s;`;
+        container.appendChild(p);
+      }
+    }
+
+    function createSparkles(containerId, count) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      for (let i = 0; i < count; i++) {
+        const s = document.createElement('div');
+        s.className = 'sparkle-dot';
+        s.style.cssText = `width:4px;height:4px;background:#f5e6a3;border-radius:50%;left:${Math.random() * 100}%;top:${Math.random() * 100}%;animation-duration:${Math.random() * 4 + 3}s;animation-delay:${Math.random() * 5}s;`;
+        container.appendChild(s);
+      }
+    }
+
+    // ===== LUCIDE ICONS =====
+    function initLucideIcons() {
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        lucide.createIcons();
+        console.log('Lucide icons initialized');
+      } else {
+        console.warn('Lucide not loaded yet');
+        // Retry after a short delay
+        setTimeout(initLucideIcons, 200);
+      }
+    }
+
+    // ===== BUILD AGENDA =====
+    function buildAgenda() {
+      const list = document.getElementById('agendaList');
+      if (!list) return;
+
+      list.innerHTML = '';
+
+      agendaItems.forEach((item, idx) => {
+        const el = document.createElement('div');
+        el.className = 'flex items-center gap-4';
+        el.style.cssText = `opacity:0;animation:fadeSlideUp 0.5s ease ${idx * 0.1}s forwards;`;
+
+        const iconName = getLucideIconName(item.icon);
+
+        el.innerHTML = `
+          <div class="text-right flex-shrink-0" style="min-width:50px;">
+            <span class="text-gold-400 font-bold text-sm">${item.time}</span>
+          </div>
+          <div class="w-3 h-3 rounded-full bg-gold-500/30 border-2 border-gold-500 flex-shrink-0"></div>
+          <div class="flex-1 flex items-center gap-2">
+            <i data-lucide="${iconName}" style="width:16px;height:16px;color:#d4af37;"></i>
+            <p class="text-white/90 text-sm font-medium">${item.title}</p>
+          </div>
+        `;
+        list.appendChild(el);
+
+        if (idx < agendaItems.length - 1) {
+          const divider = document.createElement('div');
+          divider.className = 'ml-[62px] pl-[5px]';
+          divider.innerHTML = '<div class="w-px h-4 bg-gold-500/20"></div>';
+          list.appendChild(divider);
+        }
+      });
+
+      // Initialize icons for agenda items
+      setTimeout(initLucideIcons, 100);
+    }
+
+    // ===== COUNTDOWN =====
+    function updateCountdown() {
+      const targetDate = new Date('2026-04-12T09:30:00+07:00');
+      const now = new Date();
+      const diff = targetDate - now;
+
+      const cdDays = document.getElementById('cdDays');
+      const cdHours = document.getElementById('cdHours');
+      const cdMinutes = document.getElementById('cdMinutes');
+      const cdSeconds = document.getElementById('cdSeconds');
+
+      if (!cdDays || !cdHours || !cdMinutes || !cdSeconds) return;
+
+      if (diff <= 0) {
+        cdDays.textContent = '🎉';
+        cdHours.textContent = '--';
+        cdMinutes.textContent = '--';
+        cdSeconds.textContent = '--';
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      cdDays.textContent = String(days).padStart(2, '0');
+      cdHours.textContent = String(hours).padStart(2, '0');
+      cdMinutes.textContent = String(minutes).padStart(2, '0');
+      cdSeconds.textContent = String(seconds).padStart(2, '0');
+    }
+
+    // ===== OPEN INVITATION =====
+    window.openInvitation = function() {
+      const cover = document.getElementById('coverPage');
+      const main = document.getElementById('mainContent');
+
+      cover.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+      cover.style.opacity = '0';
+      cover.style.transform = 'scale(0.95)';
+
+      setTimeout(() => {
+        cover.style.display = 'none';
+        main.classList.remove('hidden');
+        main.style.opacity = '0';
+        main.style.transition = 'opacity 0.8s ease';
+
+        requestAnimationFrame(() => {
+          main.style.opacity = '1';
+          setTimeout(() => {
+            initLucideIcons();
+          }, 100);
+        });
+
+        createParticles('mainParticles', 20);
+        createSparkles('mainParticles', 10);
+
+        // Observe sections for scroll animation
+        setTimeout(() => {
+          const sections = document.querySelectorAll('.page-section');
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.15 });
+          sections.forEach(s => observer.observe(s));
+        }, 200);
+      }, 800);
+    };
+
+    // ===== INITIALIZATION =====
+    document.addEventListener('DOMContentLoaded', function() {
+      // Apply config
+      applyConfig(defaultConfig);
+
+      // Build agenda
+      buildAgenda();
+
+      // Start countdown
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      // Create particles
+      createParticles('coverParticles', 30);
+      createSparkles('coverParticles', 15);
+
+      // Initialize icons
+      setTimeout(initLucideIcons, 300);
+    });
+  </script>
+</body>
+</html>
